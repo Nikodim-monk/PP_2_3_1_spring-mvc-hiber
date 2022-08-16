@@ -22,7 +22,6 @@ import java.util.Properties;
 @EnableTransactionManagement
 @PropertySource(value = "classpath:db.properties")
 @ComponentScan(value = "web")
-
 public class HiberConfig {
     @Autowired
     private Environment env;
@@ -34,16 +33,9 @@ public class HiberConfig {
         ds.setUrl(env.getProperty("db.url"));
         ds.setUsername(env.getProperty("db.username"));
         ds.setPassword(env.getProperty("db.password"));
-
-        ds.setInitialSize(Integer.parseInt(env.getRequiredProperty("db.initialSize")));
-        ds.setMinIdle(Integer.parseInt(env.getRequiredProperty("db.minIdle")));
-        ds.setMaxIdle(Integer.parseInt(env.getRequiredProperty("db.maxIdle")));
-        ds.setTimeBetweenEvictionRunsMillis(Long.parseLong(env.getRequiredProperty("db.timeBetweenEvictionRunsMillis")));
-        ds.setMinEvictableIdleTimeMillis(Long.parseLong(env.getRequiredProperty("db.minEvictTableIdleTimeMillis")));
-        ds.setTestOnBorrow(Boolean.parseBoolean(env.getRequiredProperty("db.textOnBorrow")));
-        ds.setValidationQuery(env.getRequiredProperty("db.validationQuery"));
         return ds;
     }
+
     @Bean
     public LocalContainerEntityManagerFactoryBean getEntityManager() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
@@ -57,14 +49,12 @@ public class HiberConfig {
         em.setJpaProperties(props);
         return em;
     }
-//
-//    @Bean
-//    public PlatformTransactionManager getTransactionManager() {
-//        JpaTransactionManager manager=new JpaTransactionManager();
-//        manager.setEntityManagerFactory(getEntityManager().getObject());
-//        return manager;
-//    }
 
-
+    @Bean
+    public PlatformTransactionManager getTransactionManager() {
+        JpaTransactionManager manager=new JpaTransactionManager();
+        manager.setEntityManagerFactory(getEntityManager().getObject());
+        return manager;
+    }
 
 }

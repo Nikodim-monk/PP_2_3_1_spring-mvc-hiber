@@ -2,7 +2,6 @@ package web.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-
 @Entity
 @Table(name = "users")
 public class User {

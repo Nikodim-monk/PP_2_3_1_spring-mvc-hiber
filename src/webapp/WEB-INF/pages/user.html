@@ -8,11 +8,9 @@
 <form th:method="PATCH" th:action="@{{id}(id=${user.getId()})}" th:object="${user}">
     <label for="name">Новое имя:</label>
     <input type="text" th:field="*{name}" id="name">
-<!--    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">error</div>-->
     <br/>
     <label for="age">Возраст:</label>
     <input type="text" th:field="*{age}" id="age">
-<!--    <div th:if="${#fields.hasErrors('age')}" th:errors="*{age}">error</div>-->
     <br/>
     <input type="submit" value="Обновить"/>
 </form>

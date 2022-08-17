@@ -14,7 +14,7 @@ import javax.validation.Valid;
 public class UserController {
 
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
 
     @GetMapping("/")
     public String printAllUsers(ModelMap model) {

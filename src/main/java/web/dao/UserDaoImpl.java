@@ -1,83 +1,47 @@
 package web.dao;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import web.model.User;
-import web.util.Util;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
 public class UserDaoImpl implements UserDao {
-        private SessionFactory sessionFactory = Util.mineHiberConnection();
-////    @Autowired
-////    private SessionFactory sessionFactory;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Transactional(readOnly = true)
     public List<User> getAllUsers() {
-        List<User> users;
-        try (Session session = sessionFactory.getCurrentSession()) {
-            session.beginTransaction();
-            users = session.createQuery("SELECT i FROM User i", User.class).getResultList();
-            session.getTransaction().commit();
-        } catch (HibernateException e) {
-            throw new RuntimeException(e);
-        }
-        return users;
+        return entityManager.createQuery("SELECT i FROM User i", User.class).getResultList();
     }
 
+    @Transactional(readOnly = true)
     public User getUserById(int id) {
-        User user;
-        try (Session session = sessionFactory.getCurrentSession()) {
-            try {
-                session.beginTransaction();
-                user = session.get(User.class, id);
-                session.getTransaction().commit();
-            } catch (HibernateException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return user;
+        return entityManager.createQuery("SELECT i FROM User i WHERE i.Id = :id", User.class)
+                .setParameter("id", id).getSingleResult();
     }
 
+    @Transactional
     public void addNewUser(User user) {
-        try (Session session = sessionFactory.getCurrentSession()) {
-            try {
-                session.beginTransaction();
-                session.save(user);
-                session.getTransaction().commit();
-            } catch (HibernateException e) {
-                session.getTransaction().rollback();
-                throw new RuntimeException(e);
-            }
-        }
+        entityManager.persist(user);
     }
 
+    @Transactional
     public void updateUser(User user, int id) {
-        try (Session session = sessionFactory.getCurrentSession()) {
-            try {
-                session.beginTransaction();
-                User updateUser = session.get(User.class, id);
-                updateUser.setName(user.getName());
-                updateUser.setAge(user.getAge());
-                session.getTransaction().commit();
-            } catch (HibernateException e) {
-                session.getTransaction().rollback();
-                throw new RuntimeException(e);
-            }
-        }
+        User userNotUpdate = entityManager.createQuery("SELECT i FROM User i WHERE i.Id = :id", User.class)
+                .setParameter("id", id).getSingleResult();
+        userNotUpdate.setName(user.getName());
+        userNotUpdate.setAge(user.getAge());
     }
 
+    @Transactional
     public void UserDelete(int id) {
-        try (Session session = sessionFactory.getCurrentSession()) {
-            try {
-                session.beginTransaction();
-                session.remove(session.get(User.class, id));
-                session.getTransaction().commit();
-            } catch (HibernateException e) {
-                session.getTransaction().rollback();
-                throw new RuntimeException(e);
-            }
-        }
+        User user = entityManager.createQuery("SELECT i FROM User i WHERE i.Id = :id", User.class)
+                .setParameter("id", id).getSingleResult();
+        entityManager.remove(user);
     }
 }

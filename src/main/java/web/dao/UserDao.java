@@ -9,11 +9,11 @@ public interface UserDao{
 
     List<User> getAllUsers();
 
-    User getUserById(int id);
+    User getUserById(long id);
 
     void addNewUser(User user);
 
-    void updateUser(User user, int id);
+    void updateUser(User user, long id);
 
-    void UserDelete(int id);
+    void UserDelete(long id);
 }

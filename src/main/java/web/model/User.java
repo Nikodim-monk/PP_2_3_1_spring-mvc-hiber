@@ -6,11 +6,11 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "UserID")
-    private int Id;
-    @Column(name = "UserName")
+    @Column(name = "id")
+    private long Id;
+    @Column(name = "name")
     private String Name;
-    @Column(name = "UserAge")
+    @Column(name = "age")
     private int Age;
 
     public User() {
@@ -21,11 +21,11 @@ public class User {
         this.Age = age;
     }
 
-    public int getId() {
+    public long getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.Id = id;
     }
 

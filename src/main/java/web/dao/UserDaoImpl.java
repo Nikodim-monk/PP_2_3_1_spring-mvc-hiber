@@ -20,7 +20,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Transactional(readOnly = true)
-    public User getUserById(int id) {
+    public User getUserById(long id) {
         return entityManager.createQuery("SELECT i FROM User i WHERE i.Id = :id", User.class)
                 .setParameter("id", id).getSingleResult();
     }
@@ -31,7 +31,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Transactional
-    public void updateUser(User user, int id) {
+    public void updateUser(User user, long id) {
         User userNotUpdate = entityManager.createQuery("SELECT i FROM User i WHERE i.Id = :id", User.class)
                 .setParameter("id", id).getSingleResult();
         userNotUpdate.setName(user.getName());
@@ -39,7 +39,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Transactional
-    public void UserDelete(int id) {
+    public void UserDelete(long id) {
         User user = entityManager.createQuery("SELECT i FROM User i WHERE i.Id = :id", User.class)
                 .setParameter("id", id).getSingleResult();
         entityManager.remove(user);

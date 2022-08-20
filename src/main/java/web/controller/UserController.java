@@ -23,7 +23,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public String printUserById(ModelMap model, @PathVariable("id") int id) {
+    public String printUserById(ModelMap model, @PathVariable("id") long id) {
         model.addAttribute("user", userDao.getUserById(id));
         return "user";
     }
@@ -37,14 +37,14 @@ public class UserController {
 
     @PatchMapping("/{id}")
     public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
-                             @PathVariable("id") int id) {
+                             @PathVariable("id") long id) {
         if(bindingResult.hasErrors()){return "redirect:/{id}";}
         userDao.updateUser(user, id);
         return "redirect:/";
     }
 
     @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable("id") int id) {
+    public String deleteUser(@PathVariable("id") long id) {
         userDao.UserDelete(id);
         return "redirect:/";
     }

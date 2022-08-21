@@ -24,14 +24,14 @@
 </table>
 <br/>
 <form th:method="POST" th:action="@{/new}" th:object="${user}">
-    <label th:for="name">Новое имя:</label>
-    <input th:type="text" th:name="name" th:id="name">
+    <label for="name">Новое имя:</label>
+    <input type="text" th:name="name" id="name">
     <br/>
-    <label th:for="age">Возраст:</label>
-    <input th:type="text" th:name="age" th:id="age">
+    <label for="age">Возраст:</label>
+    <input type="text" th:name="age" id="age">
     <br>
     <br>
-    <input th:type="submit" th:value="Записать"/>
+    <input type="submit" value="Записать"/>
 </form>
 </body>
 </html>

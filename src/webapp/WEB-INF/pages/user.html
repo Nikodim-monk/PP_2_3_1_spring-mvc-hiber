@@ -6,17 +6,17 @@
 </head>
 <body>
 <form th:method="PATCH" th:action="@{{id}(id=${user.getId()})}" th:object="${user}">
-    <label for="name">Новое имя:</label>
-    <input type="text" th:field="*{name}" id="name">
+    <label th:for="name">Новое имя:</label>
+    <input th:type="text" th:field="*{name}" th:id="name">
     <br/>
-    <label for="age">Возраст:</label>
-    <input type="text" th:field="*{age}" id="age">
+    <label th:for="age">Возраст:</label>
+    <input th:type="text" th:field="*{age}" th:id="age">
     <br/>
-    <input type="submit" value="Обновить"/>
+    <input th:type="submit" th:value="Обновить"/>
 </form>
 <br/>
 <form th:method="DELETE" th:action="@{{id}(id=${user.getId()})}">
-    <input type="submit" value="Удалить"/>
+    <input th:type="submit" th:value="Удалить"/>
 </form>
 
 </body>

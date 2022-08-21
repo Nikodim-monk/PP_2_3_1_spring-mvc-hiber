@@ -3,16 +3,13 @@ package web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import web.dao.UserDao;
 import web.model.User;
 
-import javax.validation.Valid;
 
 @Controller
 public class UserController {
-
     @Autowired
     private UserDao userDao;
 
@@ -29,16 +26,13 @@ public class UserController {
     }
 
     @PostMapping("/new")
-    public String createNewUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){return "redirect:/";}
+    public String createNewUser(@ModelAttribute("user") User user) {
         userDao.addNewUser(user);
         return "redirect:/";
     }
 
     @PatchMapping("/{id}")
-    public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
-                             @PathVariable("id") long id) {
-        if(bindingResult.hasErrors()){return "redirect:/{id}";}
+    public String updateUser(@ModelAttribute("user") User user,@PathVariable("id") long id) {
         userDao.updateUser(user, id);
         return "redirect:/";
     }
